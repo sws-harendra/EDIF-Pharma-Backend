@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       title: {
-        type: DataTypes.STRING, // e.g. "Years of Expertise"
+        type: DataTypes.STRING, // e.g. "Years of Experience"
         allowNull: false,
       },
       iconUrl: {
-        type: DataTypes.STRING, // icon image path or URL
+        type: DataTypes.STRING, // optional icon URL or path
         allowNull: true,
       },
       color: {
@@ -34,10 +34,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
       },
-      headerId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
     },
     {
       tableName: "quick_stats",
@@ -45,13 +41,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  QuickStat.associate = (models) => {
-    QuickStat.belongsTo(models.HeaderSettings, {
-      foreignKey: "headerId",
-      as: "header",
-      onDelete: "CASCADE",
-    });
-  };
-
+  // No associations needed anymore
   return QuickStat;
 };

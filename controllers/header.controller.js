@@ -71,39 +71,6 @@ exports.getHeader = async (req, res) => {
     });
   }
 };
-exports.getHeader = async (req, res) => {
-  try {
-    const header = await db.HeaderSettings.findOne({
-      include: [
-        {
-          model: db.MenuItem,
-          as: "menuItems",
-          include: [{ model: db.SubMenu, as: "subMenus" }],
-        },
-        { model: db.CTAButton, as: "ctaButton" },
-      ],
-      order: [
-        [{ model: db.MenuItem, as: "menuItems" }, "order", "ASC"],
-        [
-          { model: db.MenuItem, as: "menuItems" },
-          { model: db.SubMenu, as: "subMenus" },
-          "order",
-          "ASC",
-        ],
-      ],
-    });
-
-    if (!header) return res.status(404).json({ message: "Header not found" });
-
-    res.json(header);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      error: "Failed to fetch header",
-      details: error.message,
-    });
-  }
-};
 
 // ✏️ Update Header
 exports.updateHeader = async (req, res) => {

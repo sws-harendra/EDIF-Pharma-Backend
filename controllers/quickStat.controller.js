@@ -1,29 +1,22 @@
 const db = require("../models");
 
-// Create one or multiple stats
+// ✅ Create one or multiple stats
 exports.createQuickStats = async (req, res) => {
   try {
-    const { headerId, stats } = req.body;
-
-    if (!headerId) {
-      return res.status(400).json({ message: "headerId is required" });
-    }
+    const { stats } = req.body;
 
     let createdStats = [];
 
-    // support multiple card creation
     if (Array.isArray(stats)) {
       createdStats = await db.QuickStat.bulkCreate(
         stats.map((s, i) => ({
           ...s,
           order: s.order ?? i,
-          headerId,
         }))
       );
     } else {
       const single = await db.QuickStat.create({
         ...req.body,
-        headerId,
       });
       createdStats.push(single);
     }
@@ -38,16 +31,12 @@ exports.createQuickStats = async (req, res) => {
   }
 };
 
-// Fetch all stats for a header
-exports.getQuickStatsByHeader = async (req, res) => {
+// ✅ Fetch all stats
+exports.getAllQuickStats = async (req, res) => {
   try {
-    const { headerId } = req.params;
-
     const stats = await db.QuickStat.findAll({
-      where: { headerId },
       order: [["order", "ASC"]],
     });
-
     res.json(stats);
   } catch (error) {
     console.error(error);
@@ -58,7 +47,7 @@ exports.getQuickStatsByHeader = async (req, res) => {
   }
 };
 
-// Update a stat (edit or toggle visibility)
+// ✅ Update a single stat
 exports.updateQuickStat = async (req, res) => {
   try {
     const { id } = req.params;
@@ -77,7 +66,7 @@ exports.updateQuickStat = async (req, res) => {
   }
 };
 
-// Reorder cards
+// ✅ Reorder stats
 exports.reorderQuickStats = async (req, res) => {
   try {
     const { order } = req.body; // e.g. [{ id: 1, order: 0 }, { id: 2, order: 1 }]
@@ -85,16 +74,34 @@ exports.reorderQuickStats = async (req, res) => {
     if (!Array.isArray(order))
       return res.status(400).json({ message: "Invalid order format" });
 
-    const updatePromises = order.map(({ id, order }) =>
+    const updates = order.map(({ id, order }) =>
       db.QuickStat.update({ order }, { where: { id } })
     );
 
-    await Promise.all(updatePromises);
+    await Promise.all(updates);
     res.json({ message: "Order updated successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       error: "Failed to reorder quick stats",
+      details: error.message,
+    });
+  }
+};
+
+// ✅ Delete a stat
+exports.deleteQuickStat = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await db.QuickStat.destroy({ where: { id } });
+
+    if (!deleted) return res.status(404).json({ message: "Stat not found" });
+
+    res.json({ message: "Stat deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "Failed to delete stat",
       details: error.message,
     });
   }
