@@ -37,6 +37,22 @@ exports.createHeroSection = async (req, res) => {
     });
   }
 };
+exports.getAllHeroSections = async (req, res) => {
+  try {
+    const heroes = await db.HeroSection.findAll({
+      include: [{ model: db.HeaderSettings, as: "header" }],
+      order: [["createdAt", "DESC"]], // optional, latest first
+    });
+
+    res.json(heroes);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "Failed to fetch all hero sections",
+      details: error.message,
+    });
+  }
+};
 
 exports.getHeroSectionByHeader = async (req, res) => {
   try {

@@ -4,6 +4,7 @@ const heroController = require("../controllers/heroSection.controller");
 
 // POST /api/hero
 router.post("/", heroController.createHeroSection);
+router.get("/", heroController.getAllHeroSections);
 
 // GET /api/hero/:headerId
 router.get("/:headerId", heroController.getHeroSectionByHeader);
