@@ -45,7 +45,7 @@ exports.getHeader = async (req, res) => {
         {
           model: db.MenuItem,
           as: "menuItems",
-          include: [{ model: db.MenuItem, as: "subItems" }],
+          include: [{ model: db.SubMenu, as: "subMenus" }], // ✅ fixed here
         },
         { model: db.CTAButton, as: "ctaButton" },
       ],

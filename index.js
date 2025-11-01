@@ -30,6 +30,12 @@ app.get("/", (req, res) => {
 app.use("/api/header", headerRoutes);
 app.use("/api/upload-media", require("./routes/uploadMedia.route"));
 app.use("/api/hero", require("./routes/heroSection.route"));
+app.use("/api/quick-stats", require("./routes/quickStat.route"));
+app.use("/api/Manufacturing-rnd", require("./routes/innovation.route"));
+app.use("/api/global-presence", require("./routes/globalPresence.route"));
+app.use("/api/csrsustainability", require("./routes/csrSustainability.route"));
+app.use("/api/finalcta", require("./routes/finalCtaBanner.route"));
+app.use("/api/contact", require("./routes/contactLead.route"));
 
 let port = process.env.PORT || 8000;
 app.listen(port, () => {
