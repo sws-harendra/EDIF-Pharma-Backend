@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
     "FinalCTABanner",
     {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-      headerId: { type: DataTypes.INTEGER, allowNull: false },
 
       title: { type: DataTypes.STRING, allowNull: false }, // "Ready to Partner with Us?"
       subtitle: { type: DataTypes.TEXT }, // "Contact us today to discuss your pharmaceutical needs."
@@ -38,14 +37,6 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
     }
   );
-
-  FinalCTABanner.associate = (models) => {
-    FinalCTABanner.belongsTo(models.HeaderSettings, {
-      foreignKey: "headerId",
-      as: "header",
-      onDelete: "CASCADE",
-    });
-  };
 
   return FinalCTABanner;
 };
