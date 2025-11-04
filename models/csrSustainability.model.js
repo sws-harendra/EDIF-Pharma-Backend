@@ -6,8 +6,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 
-      headerId: { type: DataTypes.INTEGER, allowNull: false },
-
       title: { type: DataTypes.STRING, allowNull: false }, // "CSR / Sustainability"
       subtitle: { type: DataTypes.STRING }, // optional smaller heading
       description: { type: DataTypes.TEXT }, // main body text
@@ -32,14 +30,6 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
     }
   );
-
-  CSRSustainability.associate = (models) => {
-    CSRSustainability.belongsTo(models.HeaderSettings, {
-      foreignKey: "headerId",
-      as: "header",
-      onDelete: "CASCADE",
-    });
-  };
 
   return CSRSustainability;
 };

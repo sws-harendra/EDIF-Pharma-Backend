@@ -36,6 +36,9 @@ app.use("/api/global-presence", require("./routes/globalPresence.route"));
 app.use("/api/csrsustainability", require("./routes/csrSustainability.route"));
 app.use("/api/finalcta", require("./routes/finalCtaBanner.route"));
 app.use("/api/contact", require("./routes/contactLead.route"));
+// app.use("/api/csr", require("./routes/csr.route"));
+
+// app.use("/api/certifications", require("./routes/certification.route"));
 
 let port = process.env.PORT || 8000;
 app.listen(port, () => {
